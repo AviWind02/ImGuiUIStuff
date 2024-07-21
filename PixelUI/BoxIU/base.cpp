@@ -113,16 +113,17 @@ void DescriptionBox()
 
 
 
-bool Option(const std::string& text, const std::string& descriptionText)
+bool setOption(const std::string& Ltext, const std::string& Rtext, const std::string& descriptionText)
 {
     optionCount++;
 
     bool hovered = false;
     bool held = false;
     bool isHovered = false;
-    bool clicked = control::MouseClickOption(text, &hovered, &held);
-    bool selectedOption = (clicked || control::selectPressed);
+    bool clicked = control::MouseClickOption(Ltext, &hovered, &held);
+    bool selectedOption = (clicked || (currentOption == optionCount));
     control::cursorVisible ? isHovered = hovered : isHovered = (currentOption == optionCount);
+    
 
     if (isHovered) {
 
@@ -149,7 +150,10 @@ bool Option(const std::string& text, const std::string& descriptionText)
                 draw::RectFilled(scrollBarColorClicked, textPos, optionSize, true);
             }
         }
-        draw::Text(text, isHovered ? textOnHoverColor : textOnNormalColor, { textPos.x + descriptionTextOffset.x, textPos.y + descriptionTextOffset.y });
+        draw::Text(Ltext, isHovered ? textOnHoverColor : textOnNormalColor, { textPos.x + descriptionTextOffset.x, textPos.y + descriptionTextOffset.y });
+        if (Rtext != "NULL")
+            draw::Text(Rtext, isHovered ? textOnHoverColor : textOnNormalColor, { textPos.x + descriptionTextOffset.x, textPos.y + descriptionTextOffset.y }, nullptr, true);
+
     }
     else if (optionCount > (currentOption - maxOption) && optionCount <= currentOption)
     {
@@ -165,10 +169,12 @@ bool Option(const std::string& text, const std::string& descriptionText)
                 draw::RectFilled(scrollBarColorClicked, textPos, optionSize, true);
             }
         }
-        draw::Text(text, isHovered ? textOnHoverColor : textOnNormalColor, { textPos.x + descriptionTextOffset.x, textPos.y + descriptionTextOffset.y });
+        draw::Text(Ltext, isHovered ? textOnHoverColor : textOnNormalColor, { textPos.x + descriptionTextOffset.x, textPos.y + descriptionTextOffset.y });
+        if (Rtext != "NULL")
+             draw::Text(Rtext, isHovered ? textOnHoverColor : textOnNormalColor, { textPos.x + descriptionTextOffset.x, textPos.y + descriptionTextOffset.y }, nullptr, true);
     }
 
-    if (control::selectPressed && held)
+    if (selectedOption && (control::selectPressed || held))
     {
         control::selectPressed = false;
         return true;
@@ -176,6 +182,97 @@ bool Option(const std::string& text, const std::string& descriptionText)
     return false;
 }
 
+
+bool Option(const std::string& text, const std::string& descriptionText)
+{
+    return setOption(text, "NULL", descriptionText);
+}
+
+bool OptionInt(const std::string& text, int& value, int minValue, int maxValue, int step, const std::string& descriptionText)
+{
+    std::string Rtext = "[" + std::to_string(value) + "/" + std::to_string(maxValue) + "]";
+    bool cliked = setOption(text, Rtext, descriptionText);
+   
+    if (currentOption == optionCount)
+    {
+        if (control::rightPressed)
+        {
+            value += step;
+            if (value > maxValue) value = minValue;  // Wrap to min
+            return true;
+        }
+        else if (control::leftPressed)
+        {
+            value -= step;
+            if (value < minValue) value = maxValue;  // Wrap to max
+            return true;
+        }
+        return cliked;
+    }
+    return false;
+}
+
+bool OptionFloat(const std::string& text, float& value, float minValue, float maxValue, float step, int precision, const std::string& descriptionText)
+{
+    std::string Rtext = "[" + draw::formatFloat(value, precision) + "/" + draw::formatFloat(maxValue, precision) + "]";
+    bool cliked = setOption(text, Rtext, descriptionText);
+
+    if (currentOption == optionCount)
+    {
+        if (control::rightPressed)
+        {
+            value += step;
+            if (value > maxValue) value = minValue;  // Wrap to min
+            return true;
+        }
+        else if (control::leftPressed)
+        {
+            value -= step;
+            if (value < minValue) value = maxValue;  // Wrap to max
+            return true;
+        }
+        return cliked;
+    }
+    return false;
+}
+
+bool OptionToggle(const std::string& text, bool& value, const std::string& descriptionText)
+{
+    std::string Rtext = value ? "[ON]" : "[OFF]";
+    bool cliked = setOption(text, Rtext, descriptionText);
+
+    if (cliked)
+    {
+        value = !value;
+        return true;
+    }
+    return false;
+}
+
+bool OptionStringArray(const std::string& text, int& currentIndex, const std::vector<std::string>& options, const std::string& descriptionText)
+{
+    if (options.empty())
+        return false;
+
+    std::string Rtext = "[" + options[currentIndex] + "]";
+    bool cliked = setOption(text, Rtext, descriptionText);
+
+    if (currentOption == optionCount)
+    {
+        if (control::rightPressed)
+        {
+            currentIndex = (currentIndex + 1) % options.size();
+            return true;
+        }
+        else if (control::leftPressed)
+        {
+            currentIndex = (currentIndex - 1 + options.size()) % options.size();
+            return true;
+        }
+        return cliked;
+    }
+    return false;
+}
 
 
 
@@ -202,7 +299,7 @@ void End()
     ImVec2 textPos = { ImGui::GetCursorScreenPos().x + 10.0f, yPosition };
     draw::RectFilled(bottomEndBoxColor, ImVec2(textPos.x - 14.0f, textPos.y - 5.0f), footerSize);
     draw::Text(count, textOnNormalColor, textPos, nullptr, true);
-    draw::Text("V1.5 | Pixel | " + subTitle, textOnNormalColor, ImVec2(textPos.x, textPos.y));
+    draw::Text("VBETA | Pixel | " + subTitle, textOnNormalColor, ImVec2(textPos.x, textPos.y));
     DescriptionBox();
 }
 
@@ -215,7 +312,8 @@ ImVec2 menuWindowPos = ImVec2(0, 0);
 ImVec2 menuWindowSize = ImVec2(400, 520);
 ImVec4 menuWindowBgColor = ImVec4(0, 0, 0, 0);
 float menuWindowBorderSize = 0.0f;
-
+int inttest = 0;
+bool testbool;
 
 void RenderMenu()
 {
@@ -230,23 +328,15 @@ void RenderMenu()
     {
         // Render Menu
         Title("Title");
-        Option("Option 1", "Description for Option 1");
-        Option("Option 2", "Description for Option 2");
-        Option("Option 3", "Description for Option 3");
-        Option("Option 4", "Description for Option 1");
-        Option("Option 5", "Description for Option 2");
-        Option("Option 6", "Description for Option 3");
-        Option("Option 7", "Description for Option 1");
-        Option("Option 8", "Description for Option 2");
-        Option("Option 1", "Description for Option 1");
-        Option("Option 2", "Description for Option 2");
-        Option("Option 3", "Description for Option 3");
-        Option("Option 4", "Description for Option 1");
-        Option("Option 5", "Description for Option 2");
-        Option("Option 6", "Description for Option 3");
-        Option("Option 7", "Description for Option 1");
-        Option("Option 8", "Description for Option 2");
-        Option("Option 9", "I will modify the SetDescription method to check the cursorVisible flag and position the description box under the footer if the cursor is not visible. The footer position and size will be used to correctly place the description box.");
+        if (Option("Option 1", "Description for Option 1"))
+        {
+            std::cout << "Hey" << std::endl;
+        }
+        OptionInt("Option 2", inttest, 0, 1000, 100, "");
+        OptionFloat("Option 3", menuWindowBorderSize, 0, 1000, 1.3, 1, "");
+        OptionToggle("Option 3", testbool, "Option 3");
+        
+
         End();
 
     }

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <tchar.h>
 #include <string>
+#include <sstream>
 
 
 #include <D3D11.h>
@@ -90,6 +91,7 @@ namespace draw
     void Text(const std::string& text, ImVec4 color, ImVec2 pos = { 0, 0 }, ImFont* font = nullptr, bool right = false);
     ImVec2 Add(const ImVec2& vectorA, const ImVec2& vectorB);
     float GetRightTextX(float pos);
+    std::string formatFloat(float value, int precision);
     void RectFilled(ImVec4 color, ImVec2 pos, ImVec2 size, bool filled = true);
     void RectFilled(ImVec4 color, ImVec2 pos, ImVec2 size, bool filled, float thickness, float rounding);
     void RectFilled(ImVec4 color1, ImVec4 color2, ImVec4 color3, ImVec4 color4, ImVec2 pos, ImVec2 size, bool filled);

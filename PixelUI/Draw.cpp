@@ -23,7 +23,13 @@ namespace draw
 		ImGui::PopFont();
 	}
 
-
+	std::string formatFloat(float value, int precision) 
+	{
+		std::ostringstream oss;
+		oss.precision(precision);
+		oss << std::fixed << value;
+		return oss.str();
+	}
 
 	ImVec2 Add(const ImVec2& vectorA, const ImVec2& vectorB)
 	{

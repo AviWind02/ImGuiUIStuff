@@ -58,6 +58,12 @@ namespace control
         }
     }
 
+    void ToggleMouseCursorVisibilityOnClick()
+    {
+        ShowCursor(FALSE); 
+        cursorVisible = false;
+    }
+
     // Mouse click function
     bool MouseClick(const std::string& text, ImVec2 pos, ImVec2 size, bool* out_hovered, bool* out_held)
     {
@@ -127,11 +133,13 @@ namespace control
             {
                 if (UpKey())
                 {
+                    ToggleMouseCursorVisibilityOnClick();
                     currentOption > 1 ? currentOption-- : currentOption = optionCount;
                     keyPressDelayTickCount = currentTick;
                 }
                 else if (DownKey())
                 {
+                    ToggleMouseCursorVisibilityOnClick();
                     currentOption < optionCount ? currentOption++ : currentOption = 1;
                     keyPressDelayTickCount = currentTick;
                 }
@@ -142,16 +150,19 @@ namespace control
                 }
                 else if (BackKey())
                 {
+                    ToggleMouseCursorVisibilityOnClick();
                     // BackSubmenu();
                     keyPressDelayTickCount = currentTick;
                 }
                 else if (RightKey())
                 {
+                    ToggleMouseCursorVisibilityOnClick();
                     rightPressed = true;
                     keyPressDelayTickCount = currentTick;
                 }
                 else if (LeftKey())
                 {
+                    ToggleMouseCursorVisibilityOnClick();
                     leftPressed = true;
                     keyPressDelayTickCount = currentTick;
                 }
