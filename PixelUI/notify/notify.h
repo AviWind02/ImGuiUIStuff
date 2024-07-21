@@ -253,7 +253,7 @@ namespace notify
 		icons_config.PixelSnapH = true;
 		icons_config.FontDataOwnedByAtlas = FontDataOwnedByAtlas;
 
-		ImGui::GetIO().Fonts->AddFontFromMemoryTTF((void*)fa_solid_900, sizeof(fa_solid_900), 13.f, &icons_config, icons_ranges);
+		ImGui::GetIO().Fonts->AddFontFromMemoryTTF((void*)fa_solid_900, sizeof(fa_solid_900), 24.f, &icons_config, icons_ranges);
 	}
 }
 

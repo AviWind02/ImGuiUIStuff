@@ -23,7 +23,7 @@ namespace draw
 		ImGui::PopFont();
 	}
 
-	std::string formatFloat(float value, int precision) 
+	std::string FormatFloat(float value, int precision) 
 	{
 		std::ostringstream oss;
 		oss.precision(precision);

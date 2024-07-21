@@ -182,99 +182,100 @@ bool setOption(const std::string& Ltext, const std::string& Rtext, const std::st
     return false;
 }
 
-
-bool Option(const std::string& text, const std::string& descriptionText)
+namespace UIOptions
 {
-    return setOption(text, "NULL", descriptionText);
-}
-
-bool OptionInt(const std::string& text, int& value, int minValue, int maxValue, int step, const std::string& descriptionText)
-{
-    std::string Rtext = "[" + std::to_string(value) + "/" + std::to_string(maxValue) + "]";
-    bool cliked = setOption(text, Rtext, descriptionText);
-   
-    if (currentOption == optionCount)
+    bool Button(const std::string& text, const std::string& descriptionText)
     {
-        if (control::rightPressed)
-        {
-            value += step;
-            if (value > maxValue) value = minValue;  // Wrap to min
-            return true;
-        }
-        else if (control::leftPressed)
-        {
-            value -= step;
-            if (value < minValue) value = maxValue;  // Wrap to max
-            return true;
-        }
-        return cliked;
+        return setOption(text, "NULL", descriptionText);
     }
-    return false;
-}
 
-bool OptionFloat(const std::string& text, float& value, float minValue, float maxValue, float step, int precision, const std::string& descriptionText)
-{
-    std::string Rtext = "[" + draw::formatFloat(value, precision) + "/" + draw::formatFloat(maxValue, precision) + "]";
-    bool cliked = setOption(text, Rtext, descriptionText);
-
-    if (currentOption == optionCount)
+    bool Int(const std::string& text, int& value, int minValue, int maxValue, int step, const std::string& descriptionText)
     {
-        if (control::rightPressed)
+        std::string Rtext = "[" + std::to_string(value) + "/" + std::to_string(maxValue) + "]";
+        bool cliked = setOption(text, Rtext, descriptionText);
+
+        if (currentOption == optionCount)
         {
-            value += step;
-            if (value > maxValue) value = minValue;  // Wrap to min
-            return true;
+            if (control::rightPressed)
+            {
+                value += step;
+                if (value > maxValue) value = minValue;  // Wrap to min
+                return true;
+            }
+            else if (control::leftPressed)
+            {
+                value -= step;
+                if (value < minValue) value = maxValue;  // Wrap to max
+                return true;
+            }
+            return cliked;
         }
-        else if (control::leftPressed)
-        {
-            value -= step;
-            if (value < minValue) value = maxValue;  // Wrap to max
-            return true;
-        }
-        return cliked;
-    }
-    return false;
-}
-
-bool OptionToggle(const std::string& text, bool& value, const std::string& descriptionText)
-{
-    std::string Rtext = value ? "[ON]" : "[OFF]";
-    bool cliked = setOption(text, Rtext, descriptionText);
-
-    if (cliked)
-    {
-        value = !value;
-        return true;
-    }
-    return false;
-}
-
-bool OptionStringArray(const std::string& text, int& currentIndex, const std::vector<std::string>& options, const std::string& descriptionText)
-{
-    if (options.empty())
         return false;
-
-    std::string Rtext = "[" + options[currentIndex] + "]";
-    bool cliked = setOption(text, Rtext, descriptionText);
-
-    if (currentOption == optionCount)
-    {
-        if (control::rightPressed)
-        {
-            currentIndex = (currentIndex + 1) % options.size();
-            return true;
-        }
-        else if (control::leftPressed)
-        {
-            currentIndex = (currentIndex - 1 + options.size()) % options.size();
-            return true;
-        }
-        return cliked;
     }
-    return false;
+
+    bool Float(const std::string& text, float& value, float minValue, float maxValue, float step, int precision, const std::string& descriptionText)
+    {
+        std::string Rtext = "[" + draw::FormatFloat(value, precision) + "/" + draw::FormatFloat(maxValue, precision) + "]";
+        bool cliked = setOption(text, Rtext, descriptionText);
+
+        if (currentOption == optionCount)
+        {
+            if (control::rightPressed)
+            {
+                value += step;
+                if (value > maxValue) value = minValue;  // Wrap to min
+                return true;
+            }
+            else if (control::leftPressed)
+            {
+                value -= step;
+                if (value < minValue) value = maxValue;  // Wrap to max
+                return true;
+            }
+            return cliked;
+        }
+        return false;
+    }
+
+    bool Toggle(const std::string& text, bool& value, const std::string& descriptionText)
+    {
+        std::string Rtext = value ? ICON_FA_TOGGLE_ON : ICON_FA_TOGGLE_OFF;
+        bool cliked = setOption(text, Rtext, descriptionText);
+
+        if (cliked)
+        {
+            value = !value;
+            return true;
+        }
+        return false;
+    }
+
+    bool StringArray(const std::string& text, int& currentIndex, const std::vector<std::string>& options, const std::string& descriptionText)
+    {
+        if (options.empty())
+            return false;
+
+        std::string Rtext = "[" + options[currentIndex] + "]";
+        bool cliked = setOption(text, Rtext, descriptionText);
+
+        if (currentOption == optionCount)
+        {
+            if (control::rightPressed)
+            {
+                currentIndex = (currentIndex + 1) % options.size();
+                return true;
+            }
+            else if (control::leftPressed)
+            {
+                currentIndex = (currentIndex - 1 + options.size()) % options.size();
+                return true;
+            }
+            return cliked;
+        }
+        return false;
+    }
+
 }
-
-
 
 void Title(const std::string& text)
 {
@@ -328,13 +329,13 @@ void RenderMenu()
     {
         // Render Menu
         Title("Title");
-        if (Option("Option 1", "Description for Option 1"))
+        if (UIOptions::Button("Option 1", "Description for Option 1"))
         {
             std::cout << "Hey" << std::endl;
         }
-        OptionInt("Option 2", inttest, 0, 1000, 100, "");
-        OptionFloat("Option 3", menuWindowBorderSize, 0, 1000, 1.3, 1, "");
-        OptionToggle("Option 3", testbool, "Option 3");
+        UIOptions::Int("Option 2", inttest, 0, 1000, 100, "");
+        UIOptions::Float("Option 3", menuWindowBorderSize, 0, 1000, 1.3, 1, "");
+        UIOptions::Toggle("Option 3", testbool, "Option 3");
         
 
         End();
@@ -345,3 +346,10 @@ void RenderMenu()
     ImGui::PopStyleColor();
     ImGui::End();
 }
+
+
+//ICON_FA_ARROW_CIRCLE_RIGHT This one
+//ICON_FA_ARROW_RIGHT
+//ICON_FA_ARROW_ALT_CIRCLE_RIGHT
+//ICON_FA_GRIP_LINES
+//ICON_FA_LAYER_GROUP
