@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_dx11.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Draw.cpp">
+      <Filter>Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls.cpp">
+      <Filter>Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxIU\base.cpp">
+      <Filter>BoxUI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_dx11.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_win32.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="rubik.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="notify\notify.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="notify\font_awesome_5.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="notify\fa-solid-900.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="notify\fa-regular-400.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{31766d05-f46d-4c98-88d7-0a3e69ce98a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{3cecc61c-12ec-4604-90a3-441f2d22958f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Backend">
+      <UniqueIdentifier>{de72ba26-ec05-423e-ac5d-8a07a944fbbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BoxUI">
+      <UniqueIdentifier>{1197698a-059b-4f92-9f81-fa6682259644}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
