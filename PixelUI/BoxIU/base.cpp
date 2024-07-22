@@ -46,6 +46,38 @@ ImVec2 descriptionTextOffset = ImVec2(10.0f, 5.0f);
 
 
 
+
+//Sub Menu Stuff
+enum SubMenu {
+    MainMenu,
+    LocalMenu_SUB,
+    ClothingMenu_SUB,
+};
+static constexpr int MaxSubMenuLevels = 1000;
+SubMenu subMenuArray[MaxSubMenuLevels];
+int subMenuLevel = 0;
+SubMenu currentSubMenu = MainMenu;
+
+void NextSubmenu(SubMenu menu) {
+    if (subMenuLevel < MaxSubMenuLevels) {
+        subMenuArray[subMenuLevel] = currentSubMenu;
+        subMenuLevel++;
+        currentSubMenu = menu;
+        currentOption = 1;
+    }
+}
+void BackSubmenu() {
+    if (subMenuLevel > 0) {
+        subMenuLevel--;
+        currentSubMenu = subMenuArray[subMenuLevel];
+        currentOption = 1;  // Assuming currentOption is defined elsewhere
+    }
+}
+
+
+
+
+
 void DescriptionBox(const std::string& text)
 {
     static ImVec2 descriptionWindowPos = defaultDescriptionWindowPos;
@@ -250,6 +282,17 @@ namespace UIOptions
         return false;
     }
 
+    bool Sub(const std::string& text, bool& value, SubMenu menu, const std::string& descriptionText)
+    {
+        bool cliked = setOption(text, ICON_FA_ARROW_CIRCLE_RIGHT, descriptionText);
+        if (cliked)
+        {
+            NextSubmenu(menu);
+            return true;
+        }
+        return false;
+    }
+
     bool StringArray(const std::string& text, int& currentIndex, const std::vector<std::string>& options, const std::string& descriptionText)
     {
         if (options.empty())
@@ -300,7 +343,7 @@ void End()
     ImVec2 textPos = { ImGui::GetCursorScreenPos().x + 10.0f, yPosition };
     draw::RectFilled(bottomEndBoxColor, ImVec2(textPos.x - 14.0f, textPos.y - 5.0f), footerSize);
     draw::Text(count, textOnNormalColor, textPos, nullptr, true);
-    draw::Text("VBETA | Pixel | " + subTitle, textOnNormalColor, ImVec2(textPos.x, textPos.y));
+    draw::Text("vBETA | Pixel | " + subTitle, textOnNormalColor, ImVec2(textPos.x, textPos.y));
     DescriptionBox();
 }
 
@@ -329,14 +372,15 @@ void RenderMenu()
     {
         // Render Menu
         Title("Title");
-        if (UIOptions::Button("Option 1", "Description for Option 1"))
+        if (UIOptions::Button("Option 1", "Option"))
         {
             std::cout << "Hey" << std::endl;
         }
-        UIOptions::Int("Option 2", inttest, 0, 1000, 100, "");
-        UIOptions::Float("Option 3", menuWindowBorderSize, 0, 1000, 1.3, 1, "");
-        UIOptions::Toggle("Option 3", testbool, "Option 3");
-        
+        UIOptions::Int("Option 2", inttest, 0, 1000, 100, "Init");
+        UIOptions::Float("Option 3", menuWindowBorderSize, 0, 1000, 1.3, 1, "Float");
+        UIOptions::Toggle("Option 3", testbool, "Toggle");
+        UIOptions::Sub("Option 3", testbool, MainMenu, "Sub Menu");
+
 
         End();
 
@@ -346,6 +390,8 @@ void RenderMenu()
     ImGui::PopStyleColor();
     ImGui::End();
 }
+
+
 
 
 //ICON_FA_ARROW_CIRCLE_RIGHT This one
