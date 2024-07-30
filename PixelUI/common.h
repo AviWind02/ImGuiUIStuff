@@ -19,8 +19,31 @@
 #include "rubik.h"
 
 
+#include <ctime>
+#include <timeapi.h>
+#include <time.h>
+
+
+
+# pragma comment(lib, "secur32.lib")
+# pragma comment(lib, "winmm.lib")
+# pragma comment(lib, "dmoguids.lib")
+# pragma comment(lib, "wmcodecdspuuid.lib")
+# pragma comment(lib, "msdmo.lib")
+# pragma comment(lib, "Strmiids.lib")
+
+
+
 
 extern ImFont* m_font, * m_font_big, * m_font_title, * m_font_icon;
+
+
+namespace RetroBaseUI
+{
+    void Menu();
+    void dx_init();
+}
+
 
 
 
@@ -99,3 +122,5 @@ namespace draw
 }
 
 #endif // DRAW_H
+
+

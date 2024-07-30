@@ -15,6 +15,12 @@ namespace control
     bool isMouseEnabled = true;
     bool cursorVisible = true;
 
+
+    bool isScrollUp = false;
+    bool isScrollDown = false;
+
+
+
     bool IsKeyPressed(int virtualKey)
     {
         return GetAsyncKeyState(virtualKey) & 0x8000;

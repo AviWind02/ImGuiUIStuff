@@ -99,4 +99,5 @@ namespace draw
 
 		ImGui::GetCurrentWindow()->DrawList->AddLine(pos, endPos, ImGui::GetColorU32(color), thickness);
 	}
+
 }

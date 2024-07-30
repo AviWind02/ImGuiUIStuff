@@ -28,8 +28,14 @@
     <ClCompile Include="Main.cpp">
       <Filter>Backend</Filter>
     </ClCompile>
-    <ClCompile Include="BoxIU\base.cpp">
-      <Filter>BoxUI</Filter>
+    <ClCompile Include="BoxIU\PixelUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SpectrumUI\front_customIcons.hpp">
+      <Filter>Backend</Filter>
+    </ClCompile>
+    <ClCompile Include="SpectrumUI\RetroUI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,14 +86,14 @@
     <Filter Include="Backend">
       <UniqueIdentifier>{de72ba26-ec05-423e-ac5d-8a07a944fbbf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="BoxUI">
-      <UniqueIdentifier>{1197698a-059b-4f92-9f81-fa6682259644}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Backend\ImGui">
       <UniqueIdentifier>{31766d05-f46d-4c98-88d7-0a3e69ce98a4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Backend\Header">
       <UniqueIdentifier>{3cecc61c-12ec-4604-90a3-441f2d22958f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{1197698a-059b-4f92-9f81-fa6682259644}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

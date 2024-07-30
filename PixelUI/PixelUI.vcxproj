@@ -129,7 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BoxIU\base.cpp" />
+    <ClCompile Include="BoxIU\PixelUI.cpp" />
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="Draw.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
@@ -139,6 +139,8 @@
     <ClCompile Include="ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SpectrumUI\front_customIcons.hpp" />
+    <ClCompile Include="SpectrumUI\RetroUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />

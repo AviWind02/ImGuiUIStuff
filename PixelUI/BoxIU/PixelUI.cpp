@@ -341,9 +341,9 @@ void End()
     std::string count = (std::to_string(currentOption) + "/" + std::to_string(optionCount)).c_str();
     float yPosition = 25.0f * opCount + 60.0f;
     ImVec2 textPos = { ImGui::GetCursorScreenPos().x + 10.0f, yPosition };
-    draw::RectFilled(bottomEndBoxColor, ImVec2(textPos.x - 14.0f, textPos.y - 5.0f), footerSize);
-    draw::Text(count, textOnNormalColor, textPos, nullptr, true);
-    draw::Text("vBETA | Pixel | " + subTitle, textOnNormalColor, ImVec2(textPos.x, textPos.y));
+    draw::RectFilled(bottomEndBoxColor, ImVec2(textPos.x - 14.0f, textPos.y - 4.5f), footerSize);
+    draw::Text(count, textOnNormalColor, ImVec2(textPos.x, textPos.y - 1.5f), nullptr, true);
+    draw::Text("vBETA | Pixel | " + subTitle, textOnNormalColor, ImVec2(textPos.x, textPos.y - 1.5f));
     DescriptionBox();
 }
 
@@ -358,7 +358,7 @@ ImVec4 menuWindowBgColor = ImVec4(0, 0, 0, 0);
 float menuWindowBorderSize = 0.0f;
 int inttest = 0;
 bool testbool;
-
+std::vector<std::string> T = { "Option 1337" };
 void RenderMenu()
 {
     ImGui::SetNextWindowPos(menuWindowPos);
@@ -372,14 +372,31 @@ void RenderMenu()
     {
         // Render Menu
         Title("Title");
-        if (UIOptions::Button("Option 1", "Option"))
+        if (UIOptions::Button("Basic Option", "Option"))
         {
             std::cout << "Hey" << std::endl;
         }
-        UIOptions::Int("Option 2", inttest, 0, 1000, 100, "Init");
-        UIOptions::Float("Option 3", menuWindowBorderSize, 0, 1000, 1.3, 1, "Float");
-        UIOptions::Toggle("Option 3", testbool, "Toggle");
-        UIOptions::Sub("Option 3", testbool, MainMenu, "Sub Menu");
+        UIOptions::Int("Int Option", inttest, 0, 1000, 100, "Init");
+        UIOptions::Float("Float Option", menuWindowBorderSize, 0, 1000, 1.3, 1, "Float");
+        UIOptions::Toggle("Toggle Option", testbool, "Toggle");
+        UIOptions::Sub("Sub Option", testbool, MainMenu, "Sub Menu");
+        UIOptions::StringArray("Array Option", inttest, T, "String Array Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
+        UIOptions::Button("Option 2", "Option");
 
 
         End();
