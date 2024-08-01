@@ -1,6 +1,6 @@
 
 #include "common.h"
-
+#include "SpectrumUI/CustomFontFileIcon.hpp"
 
 
 // Data
@@ -68,7 +68,7 @@ int main()
         m_font_big = ImGui::GetIO().Fonts->AddFontFromMemoryTTF(const_cast<std::uint8_t*>(font_rubik), sizeof(font_rubik), 25.f, &font_cfg);
         m_font_title = ImGui::GetIO().Fonts->AddFontFromMemoryTTF(const_cast<std::uint8_t*>(font_rubik), sizeof(font_rubik), 40.f, &font_cfg);
         RetroBaseUI::dx_init();
-        //m_font_icon = io.Fonts->AddFontFromFileTTF("C:\\Users\\gilla\\Downloads\\Avi-Regular.ttf", 40.0f);
+        m_font_icon = ImGui::GetIO().Fonts->AddFontFromMemoryTTF(const_cast<std::uint8_t*>(font_customIcon), sizeof(font_rubik), 40.f, &font_cfg);
 
         
 

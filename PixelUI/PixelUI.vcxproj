@@ -24,7 +24,7 @@
     <ProjectGuid>{60f8994c-c361-4f8b-b8fc-488de012a2f9}</ProjectGuid>
     <RootNamespace>PixelUI</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>PixelUI</ProjectName>
+    <ProjectName>ImGuiUIBase</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -139,7 +139,7 @@
     <ClCompile Include="ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="SpectrumUI\front_customIcons.hpp" />
+    <ClCompile Include="SpectrumUI\CustomFontFileIcon.hpp" />
     <ClCompile Include="SpectrumUI\RetroUI.cpp" />
   </ItemGroup>
   <ItemGroup>

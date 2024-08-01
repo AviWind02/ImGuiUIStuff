@@ -31,11 +31,11 @@
     <ClCompile Include="BoxIU\PixelUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="SpectrumUI\front_customIcons.hpp">
-      <Filter>Backend</Filter>
-    </ClCompile>
     <ClCompile Include="SpectrumUI\RetroUI.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SpectrumUI\CustomFontFileIcon.hpp">
+      <Filter>Backend\Header</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
