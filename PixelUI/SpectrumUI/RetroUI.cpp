@@ -6,7 +6,7 @@ namespace RetroBaseUI {
     std::string subTitle = "MainMenu";
     std::string textDescription = "description Box";
 
-    ImVec2 menuPos = { -10, 15 };
+    ImVec2 menuPos = { 1, 15 };
     ImVec2 menuSize = { 475.f, 775.f };
 
     float openstate = 475.f;
@@ -19,11 +19,14 @@ namespace RetroBaseUI {
     // Font
     extern ImFont* m_font_big;
 
-    static int buttonCounter = 0;
+    int buttonCounter;
+    int subMenuOptionCount;
+    int subMenucurrentOptionCount;
+    int fadeStage;
+    int frametimeRGB;
 
-    float fadeProgress = 0.0f;
-    int fadeStage, frametimeRGB = 0;
 
+    float fadeProgress;
     const float ButtonSizeXChild = 180.f;
     const float ButtonSizeX = 190.f;
     const float ButtonSizeY = 30.f;
@@ -203,7 +206,59 @@ namespace RetroBaseUI {
         ImVec2 endPos = ImVec2(xPos, menuPos.y + menuHeight);
         ImGui::GetCurrentWindow()->DrawList->AddLine(startPos, endPos, ImGui::GetColorU32(color), thickness);
     } 
-    int subMenuOptionCount, subMenucurrentOptionCount;
+
+    void DescriptionBox(const std::string& text, bool showOnMouse)
+    {
+        static ImVec2 descriptionWindowPos = defaultDescriptionWindowPos;
+        static ImVec4 descriptionBackgroundColor = Black;
+        static ImVec4 descriptionTextColor = White;
+        const float xPosOffset = 15.f;
+        const float yPosOffset = 5.f;
+        const float ySizeOffset = 15.f;
+
+
+ 
+        float wrapWidth = ImGui::GetWindowSize().x;
+        // Calculate the size of the window based on the text length with wrapping
+        ImVec2 textSize = ImGui::CalcTextSize(text.c_str(), nullptr, false, wrapWidth);
+        ImVec2 descriptionWindowSize = ImVec2(wrapWidth + 20.0f, textSize.y + 20.0f); //Add some padding
+
+        // Get the current cursor position
+        ImVec2 cursorPos = ImGui::GetMousePos();
+        ImVec2 Pos = { cursorPos.x + xPosOffset, cursorPos.y + yPosOffset };
+
+        if (!showOnMouse)
+        {
+            Pos = { menuPos.x, (menuPos.y + menuSize.y) + yPosOffset };
+            descriptionWindowSize = { menuSize.x, (textSize.y + ySizeOffset) };
+        }
+        
+    
+        ImGui::SetNextWindowPos(Pos);
+        ImGui::SetNextWindowSize(descriptionWindowSize);
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, descriptionBackgroundColor);
+
+        // Create the window
+        if (ImGui::Begin("Description", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar))
+        {
+            ImGui::PushTextWrapPos(textSize.x);
+            ImGui::TextWrapped("%s", text.c_str());
+            ImGui::PopTextWrapPos();
+        }
+
+        ImGui::PopStyleColor();
+        ImGui::End();
+    }
+
+
+    void OnHoverShowDescription(const std::string& text)
+    {
+        if (ImGui::IsItemHovered())
+        {
+            DescriptionBox(text, false);
+        }
+    }
+
     bool Sub(std::string text) {
         subMenuOptionCount++;
         bool selecting = (subMenucurrentOptionCount == subMenuOptionCount);
@@ -211,7 +266,7 @@ namespace RetroBaseUI {
         // Offsets and positions
         const float iconWidth = 45.f;
         const float iconHeight = 65.f;
-        const float textOffsetX = 2.f;
+        const float textOffsetX = -2.5f;
         const float textOffsetYBase = 60.f;
         const float textOffsetYAdjustment = -45.f;
         float yPos = (textOffsetYBase * subMenuOptionCount) + textOffsetYAdjustment;
@@ -222,7 +277,7 @@ namespace RetroBaseUI {
         bool pressed = control::MouseClick(text.c_str(), textPos, ImVec2(iconWidth, iconHeight), &hoverMouse, &held);
 
         // Draw the icon using the raw data from a TFF file by fr0hawk
-        draw::Text(text, spectrumcreamlist, textPos, m_font_icon);
+        draw::Text(text, hoverMouse ? spectrumpink : spectrumcreamlist, textPos, m_font_icon);
 
         return (hoverMouse && pressed);
     }
@@ -235,8 +290,10 @@ namespace RetroBaseUI {
         else if (!IsButtonInChildWindow()) {
             ImGui::SetCursorPosX(CursorPosX);
         }
-
+        ImGui::PushStyleColor(ImGuiCol_Border, spectrumcreamlist);
         bool result = ImGui::Button(option.c_str(), { IsButtonInChildWindow() ? ButtonSizeXChild : buttonSizeX_, ButtonSizeY });
+        ImGui::PopStyleColor();
+        OnHoverShowDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque euismod, felis vel facilisis vehicula, ligula ex fringilla quam, nec laoreet est ligula nec justo. Nam hendrerit, justo non dapibus fermentum, turpis urna bibendum metus, sed interdum elit velit et mauris. Vestibulum vehicula imperdiet mi, ");
         buttonCounter++;
         return result;
     }
@@ -250,8 +307,9 @@ namespace RetroBaseUI {
         else if (!IsButtonInChildWindow()) {
             ImGui::SetCursorPosX(CursorPosX);
         }
-
+        ImGui::PushStyleColor(ImGuiCol_Border, spectrumcreamlist);
         bool result = ImGui::Button(option.c_str(), { IsButtonInChildWindow() ? ButtonSizeXChild : ButtonSizeX, ButtonSizeY });
+        ImGui::PopStyleColor();
 
         if (result) {
             *toggle = !(*toggle);
@@ -281,7 +339,9 @@ namespace RetroBaseUI {
         ImGui::SetCursorPosX(CursorPosX);
 
         std::string T = "###" + option;
+        ImGui::PushStyleColor(ImGuiCol_Border, spectrumcreamlist);
         bool buttonClicked = ImGui::Button(option.c_str(), ImVec2(menuSize.x - 85, ButtonSizeY));
+        ImGui::PopStyleColor();
 
         ImGuiWindow* window = ImGui::GetCurrentWindow();
         ImRect bb = window->DC.LastItemRect;
@@ -439,14 +499,14 @@ namespace RetroBaseUI {
         ImGui::SetNextWindowPos(menuPos);
         ImGui::SetNextWindowSize(menuSize);
         ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(ImColor(0, 0, 0, 175)));
-        ImGui::PushStyleColor(ImGuiCol_Border, GetCurrentFadeColor());
+        ImGui::PushStyleColor(ImGuiCol_Border, spectrumcreamlist);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.f);
-        CreateImGuiWindow("Spectrum Cheats V1", formattedTestString.c_str());
 
-        if (ImGui::Begin("Background", 0, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize)) {
+        if (ImGui::Begin("Background", 0, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus)) {
             if (isMenuOpen)
-                DrawVerticalLineFromTop(GetCurrentFadeColor(), 50, 2.f, menuSize.y);
+                DrawVerticalLineFromTop(spectrumcreamlist, 50, 2.f, menuSize.y);
 
+            CreateImGuiWindow("Spectrum Cheats V1", formattedTestString.c_str());
 
             Sub(ICON_self);
             Sub(ICON_Clothing);
