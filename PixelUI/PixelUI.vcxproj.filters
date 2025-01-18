@@ -37,6 +37,18 @@
     <ClCompile Include="SpectrumUI\CustomFontFileIcon.hpp">
       <Filter>Backend\Header</Filter>
     </ClCompile>
+    <ClCompile Include="HawkUI\HawkUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectNoName\NoNameUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SideUI\SideUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicUI\BasicUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imconfig.h">

@@ -3,6 +3,74 @@
 #include "SpectrumUI/CustomFontFileIcon.hpp"
 
 
+struct WeaponData {
+    std::string name;
+    float damage;
+    float speed;
+    float capacity;
+    float accuracy;
+    float hudrange;
+};
+const ImVec2 windowSize(375.0f, 300.0f);
+
+void RenderStatBar(const char* label, float value)
+{
+    ImGui::Text("%s: %.2f", label, value);
+    ImGui::SameLine();
+
+    float fullBarWidth = 200.0f;
+    float fullWindowWidth = windowSize.x - 10.f;
+    float labelWidth = ImGui::CalcTextSize(label).x + 80.0f;
+    float barStartX = fullWindowWidth - fullBarWidth;
+
+
+    ImGui::SetCursorPosX(barStartX);
+
+    ImGui::ProgressBar(value / 100.0f, ImVec2(fullBarWidth, 20.0f), "");  // No text inside the bar
+}
+
+
+
+void ShowWeaponWindow(const WeaponData& weapon)
+{
+    ImGui::SetNextWindowSize(windowSize, ImGuiCond_Always);
+
+    ImGui::Begin("Weapon Stats", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoDecoration);
+
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize(weapon.name.c_str()).x) * 0.5f);
+    ImGui::Text(weapon.name.c_str());
+    ImGui::Separator();
+
+    ImVec2 imageSize = ImVec2(200, 100);
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - imageSize.x) * 0.5f);
+    ImGui::Dummy(imageSize);
+    ImGui::Separator();
+
+    RenderStatBar("Damage", weapon.damage);
+    RenderStatBar("Speed", weapon.speed);
+    RenderStatBar("Capacity", weapon.capacity);
+    RenderStatBar("Accuracy", weapon.accuracy);
+    RenderStatBar("Range", weapon.hudrange);
+
+    ImGui::End();
+}
+
+// Example usage with dummy values
+void ExampleUsage()
+{
+    WeaponData weapon = {
+        "Super Blaster", // Weapon name
+        75.0f,  // Damage
+        65.0f,  // Speed
+        50.0f,  // Capacity
+        80.0f,  // Accuracy
+        90.0f   // Range
+    };
+
+    // Render the weapon window
+    ShowWeaponWindow(weapon);
+}
+
 // Data
 static ID3D11Device* g_pd3dDevice = NULL;
 static ID3D11DeviceContext* g_pd3dDeviceContext = NULL;
@@ -20,7 +88,7 @@ using namespace std;
 
 
 bool firstTimeLoad = true;
-ImFont* m_font, * m_font_big, * m_font_title, * m_font_icon;
+ImFont* m_font, * m_font_big, * m_font_title, * m_font_icon, *m_font_small;
 
 int main()
 {
@@ -58,21 +126,17 @@ int main()
     ImGui_ImplWin32_Init(hwnd);
     ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
 
-    if (firstTimeLoad)
-    {
-        ImFontConfig font_cfg{};
-        font_cfg.FontDataOwnedByAtlas = false;
-        strcpy_s(font_cfg.Name, "Rubik");
-        m_font = ImGui::GetIO().Fonts->AddFontFromMemoryTTF(const_cast<std::uint8_t*>(font_rubik), sizeof(font_rubik), 20.f, &font_cfg);
-        notify::init();
-        m_font_big = ImGui::GetIO().Fonts->AddFontFromMemoryTTF(const_cast<std::uint8_t*>(font_rubik), sizeof(font_rubik), 25.f, &font_cfg);
-        m_font_title = ImGui::GetIO().Fonts->AddFontFromMemoryTTF(const_cast<std::uint8_t*>(font_rubik), sizeof(font_rubik), 40.f, &font_cfg);
-        RetroBaseUI::dx_init();
-        m_font_icon = ImGui::GetIO().Fonts->AddFontFromMemoryTTF(const_cast<std::uint8_t*>(font_customIcon), sizeof(font_rubik), 40.f, &font_cfg);
+    ImFontConfig font_cfg{};
+    font_cfg.FontDataOwnedByAtlas = false;
+    strcpy_s(font_cfg.Name, "Rubik");
+    m_font = ImGui::GetIO().Fonts->AddFontFromMemoryTTF(const_cast<std::uint8_t*>(font_rubik), sizeof(font_rubik), 20.f, &font_cfg);
+    notify::init();
+    m_font_big = ImGui::GetIO().Fonts->AddFontFromMemoryTTF(const_cast<std::uint8_t*>(font_rubik), sizeof(font_rubik), 25.f, &font_cfg);
+    m_font_title = ImGui::GetIO().Fonts->AddFontFromMemoryTTF(const_cast<std::uint8_t*>(font_rubik), sizeof(font_rubik), 40.f, &font_cfg);
+    RetroBaseUI::dx_init();
+    m_font_icon = ImGui::GetIO().Fonts->AddFontFromMemoryTTF(const_cast<std::uint8_t*>(font_customIcon), sizeof(font_customIcon), 40.f, &font_cfg);
+    m_font_small = ImGui::GetIO().Fonts->AddFontFromMemoryTTF(const_cast<std::uint8_t*>(font_rubik), sizeof(font_rubik), 12.f, &font_cfg);
 
-        
-
-    }firstTimeLoad = false;
 
     // Load Fonts
  
@@ -102,9 +166,13 @@ int main()
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
   
-        //RenderMenu();
-        RetroBaseUI::Menu();
-        // Rendering
+        ExampleUsage();
+        //NoNameUI::RenderMenu();
+        //HawkBaseUI::RenderMenu();
+       // RenderMenu();
+        //RetroBaseUI::Menu();
+        //SideUI::RenderMenu();
+        //BsaicUI::RenderMenu();
         ImGui::Render();
         g_pd3dDeviceContext->OMSetRenderTargets(1, &g_mainRenderTargetView, NULL);
         g_pd3dDeviceContext->ClearRenderTargetView(g_mainRenderTargetView, (float*)&clear_color);

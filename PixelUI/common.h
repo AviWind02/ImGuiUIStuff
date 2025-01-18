@@ -35,13 +35,25 @@
 
 
 
-extern ImFont* m_font, * m_font_big, * m_font_title, * m_font_icon;
+extern ImFont* m_font, * m_font_big, * m_font_title, * m_font_icon, *m_font_small;
 
 
 namespace RetroBaseUI
 {
     void Menu();
     void dx_init();
+}
+namespace HawkBaseUI {
+    void RenderMenu();
+}
+namespace NoNameUI {
+    void RenderMenu();
+}
+namespace SideUI {
+    void RenderMenu();
+}
+namespace BsaicUI {
+    void RenderMenu();
 }
 
 
@@ -111,14 +123,14 @@ namespace control
 #define DRAW_H
 namespace draw
 {
-    void Text(const std::string& text, ImVec4 color, ImVec2 pos = { 0, 0 }, ImFont* font = nullptr, bool right = false);
     ImVec2 Add(const ImVec2& vectorA, const ImVec2& vectorB);
     float GetRightTextX(float pos);
     std::string FormatFloat(float value, int precision);
     void RectFilled(ImVec4 color, ImVec2 pos, ImVec2 size, bool filled = true);
-    void RectFilled(ImVec4 color, ImVec2 pos, ImVec2 size, bool filled, float thickness, float rounding);
-    void RectFilled(ImVec4 color1, ImVec4 color2, ImVec4 color3, ImVec4 color4, ImVec2 pos, ImVec2 size, bool filled);
+    void RectFilled(ImVec4 color, ImVec2 pos, ImVec2 size, ImDrawCornerFlags rounding_corners, float rounding);
+        void RectFilled(ImVec4 color1, ImVec4 color2, ImVec4 color3, ImVec4 color4, ImVec2 pos, ImVec2 size, bool filled);
     void Line(ImVec4 color, ImVec2 pos, ImVec2 rotation, float thickness);
+    void Text(const std::string& text, ImVec4 color, ImVec2 pos, ImFont* font = nullptr, bool right = false, bool center = false);
 }
 
 #endif // DRAW_H

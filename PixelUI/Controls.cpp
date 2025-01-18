@@ -50,12 +50,12 @@ namespace control
         {
             if (cursorVisible)
             {
-                ShowCursor(FALSE); // Hide the cursor
+                //ShowCursor(FALSE); // Hide the cursor
                 cursorVisible = false;
             }
             else
             {
-                ShowCursor(TRUE); // Show the cursor
+                //ShowCursor(TRUE); // Show the cursor
                 cursorVisible = true;
             }
 
@@ -66,7 +66,7 @@ namespace control
 
     void ToggleMouseCursorVisibilityOnClick()
     {
-        ShowCursor(FALSE); 
+        //ShowCursor(FALSE); 
         cursorVisible = false;
     }
 

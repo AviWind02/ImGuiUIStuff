@@ -6,6 +6,7 @@ std::string subTitle = "MainMenu";
 std::string textDescription = "description Box";
 ImVec2 MenuPos = { 10, 15 };
 int optionCount = 0;
+int trackedOptionCount = 0;
 int currentOption = 0;
 int maxOption = 10;
 float scrollerY = 0.0f; // The current Y position of the scroller

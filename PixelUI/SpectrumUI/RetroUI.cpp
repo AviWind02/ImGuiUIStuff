@@ -2,6 +2,27 @@
 #include <functional>
 
 namespace RetroBaseUI {
+
+
+
+    #define ICON_self "a"
+    #define ICON_settings "b"
+    #define ICON_Misc "c"
+    #define ICON_Creatertool "d"
+    #define ICON_Recovery "e"
+    #define ICON_Onlineplayers "f"
+    #define ICON_OnlineJoiner "g"
+    #define ICON_Online "h"
+    #define ICON_Teleports "i"
+    #define ICON_Weaponloadout "j"
+    #define ICON_weapons "k"
+    #define ICON_vehicle "l"
+    #define ICON_spawnvehicle "l2"
+    #define ICON_Clothing "m"
+
+
+
+
     // Global Variables
     std::string subTitle = "MainMenu";
     std::string textDescription = "description Box";
@@ -237,6 +258,7 @@ namespace RetroBaseUI {
         ImGui::SetNextWindowPos(Pos);
         ImGui::SetNextWindowSize(descriptionWindowSize);
         ImGui::PushStyleColor(ImGuiCol_WindowBg, descriptionBackgroundColor);
+        ImGui::PushStyleColor(ImGuiCol_Border, descriptionBackgroundColor);
 
         // Create the window
         if (ImGui::Begin("Description", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar))
@@ -404,6 +426,8 @@ namespace RetroBaseUI {
         return keyleft || keydrag || keyright;
     }
 
+
+
     bool DragFloatWithButton(const char* label, float* v, float v_min, float v_max, float step, const char* format = "%.3f") {
         buttonCounter = 0;
         ImVec2 textSize = ImGui::CalcTextSize(label);
@@ -464,7 +488,6 @@ namespace RetroBaseUI {
 
     std::string formattedTestString =
         "Welcome to Spectrum Cheats\n"
-        "Base: built by bomuld\n"
         "This is a closed Menu not for sales. This menu can be shared, be sure to add the origin creator Avi. This menu is just a simple cheat for GTA 5 to have fun with.\n\n"
         "Controls for this menu:\n"
         "This menu is fully ImGui with mouse support. It does not have controller support for the buttons.\n\n"
@@ -476,20 +499,7 @@ namespace RetroBaseUI {
 
     int test1;
     bool test2;
-#define ICON_self "a"
-#define ICON_settings "b"
-#define ICON_Misc "c"
-#define ICON_Creatertool "d"
-#define ICON_Recovery "e"
-#define ICON_Onlineplayers "f"
-#define ICON_OnlineJoiner "g"
-#define ICON_Online "h"
-#define ICON_Teleports "i"
-#define ICON_Weaponloadout "j"
-#define ICON_weapons "k"
-#define ICON_vehicle "l"
-#define ICON_spawnvehicle "l2"
-#define ICON_Clothing "m"
+
     void Menu() {
         buttonCounter = 0;
         subMenuOptionCount = 0;
@@ -506,7 +516,7 @@ namespace RetroBaseUI {
             if (isMenuOpen)
                 DrawVerticalLineFromTop(spectrumcreamlist, 50, 2.f, menuSize.y);
 
-            CreateImGuiWindow("Spectrum Cheats V1", formattedTestString.c_str());
+            //CreateImGuiWindow("Spectrum Cheats V1", formattedTestString.c_str());
 
             Sub(ICON_self);
             Sub(ICON_Clothing);
