@@ -168,7 +168,7 @@ int main()
   
         ExampleUsage();
         //NoNameUI::RenderMenu();
-        //HawkBaseUI::RenderMenu();
+        HawkBaseUI::RenderMenu();
        // RenderMenu();
         //RetroBaseUI::Menu();
         //SideUI::RenderMenu();

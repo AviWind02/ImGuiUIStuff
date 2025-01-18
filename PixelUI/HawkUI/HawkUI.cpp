@@ -112,6 +112,7 @@ namespace HawkBaseUI {
 
 
             draw::RectFilled(middleBoxBackColor, textPos, optionSize);//Option Box - This is why when scrolling up it disappers
+            //Would probably need to create a rect in the back 
 
             if (hovered)
             {
